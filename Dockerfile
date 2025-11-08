@@ -6,12 +6,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY ["Simple Billing API.csproj", "./"]
+COPY . .
 RUN dotnet restore "Simple Billing API.csproj"
 
-# Copy everything else and build
-COPY . .
-RUN dotnet publish "Simple Billing API.csproj" -c Release -o /app/publish --no-restore
+# Build and publish
+RUN dotnet publish "Simple Billing API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
